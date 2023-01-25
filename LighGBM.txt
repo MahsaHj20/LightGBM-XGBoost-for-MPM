@@ -1,0 +1,74 @@
+import numpy as np
+import pandas as pd
+from sklearn import metrics
+import csv
+from sklearn.model_selection import train_test_split
+import matplotlib.pyplot as plt
+from sklearn.metrics import accuracy_score
+from lightgbm import LGBMRegressor
+from sklearn.metrics import accuracy_score
+import seaborn as sn
+from sklearn.metrics import confusion_matrix
+from sklearn.metrics import f1_score, accuracy_score, precision_score,
+ recall_score
+from sklearn.model_selection import GridSearchCV
+
+# LightGBM
+
+Dataset = pd.read_csv("E:/Train.csv")
+x1 = Dataset.iloc[:,[0,1,2,3,4,5,6,7,8]].values
+y1 = Dataset.iloc [:,9].values
+
+x1_train, x1_test, y1_train, y1_test = train_test_split(x1, y1,
+ test_size=0.30,random_state=42)
+ 
+ model = LGBMRegressor ()
+parameters = {'max_depth':[4,6,8,10],'num_leaves':[50,100,150,200]
+              ,'n_estimators':[50,1000,500,1000]
+              ,'learning_rate':[0.01,0.02,0.04,0.06]}
+              
+grid.fit(x1_train, y1_train)
+
+print(" Results from Grid Search " )
+print("\n The best estimator across ALL searched params:\n",
+grid.best_estimator_)
+print("\n The best score across ALL searched params:\n",grid.best_score_)
+print("\n The best parameters across ALL searched params:\n",grid.best_params_)
+
+ypred1= grid.predict(x1_test)
+
+Dataset2 = pd.read_csv("E:/Test.csv")
+x2 = Dataset2.iloc[:,[0,1,2,3,4,5,6,7,8]].values
+ypred2 = grid.predict(x2)
+
+********************************************************************************
+# Confusion matrix
+
+cm= confusion_matrix(y1_test, ypred1_classes)
+print(cm)
+
+plt.figure(figsize = (10,7))
+sn.heatmap(cm, annot=True)
+plt.xlabel('Predicted',fontsize=15)
+plt.ylabel('Truth',fontsize=15)
+plt.savefig('Matrix Confusion',dpi=500)
+plt.title('Matrix Confusion', fontweight='bold', fontsize=15)
+plt.legend(prop={'size':13}, loc='lower right')
+
+accuracy_score(y1_test,ypred1_classes)
+precision_score(y1_test,ypred1_classes)
+recall_score(y1_test,ypred1_classes)
+f1_score(y1_test,ypred1_classes)
+
+********************************************************************************
+# Feature importance
+  
+results = permutation_importance(model, x1_train, y1_train
+, scoring='neg_mean_squared_error') 
+importance = results.importances_mean
+for i,v in enumerate(importance):
+   print('Feature: %0d, Score: %.5f' % (i,v))
+   
+pyplot.bar([x for x in range(len(importance))], importance)
+pyplot.show()
+********************************By: Mahsa.Hajihosseinlou************************

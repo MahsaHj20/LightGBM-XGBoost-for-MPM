@@ -1,0 +1,39 @@
+import numpy as np
+import pandas as pd
+from sklearn import metricsimport csv
+from sklearn.model_selection import train_test_split
+import xgboost
+from xgboost import XGBRegressor
+from sklearn.model_selection import GridSearchCV
+
+Dataset = pd.read_csv("E:/Train.csv")
+
+x1 = Dataset.iloc[:,[0,1,2,3,4,5,6,7,8]].values
+
+y1 = Dataset.iloc [:,9].values
+
+x1_train, x1_test, y1_train, y1_test = train_test_split(x1, y1, 
+test_size=0.30,random_state=42)
+
+model = XGBRegressor()
+
+parameters = {'max_depth':[4,6,8,10],'colsample_bytree':[0.2,0.4,0.8,1]
+,'n_estimators':[50,1000,500,1000],'learning_rate':[0.01,0.02,0.04,0.06]}
+
+grid = GridSearchCV(estimator=model, param_grid = parameters, cv = 5, n_jobs=-1)
+grid.fit(x1_train, y1_train)
+
+print(" Results from Grid Search " )
+print("\n The best estimator across ALL searched params:\n",grid.best_estimator_)
+print("\n The best score across ALL searched params:\n",grid.best_score_)
+print("\n The best parameters across ALL searched params:\n",grid.best_params_)
+
+ypred1= grid.predict(x1_test)
+
+Dataset2 = pd.read_csv("E:/Test.csv")
+
+x2 = Dataset2.iloc[:,[0,1,2,3,4,5,6,7,8]].values
+
+ypred2 = grid.predict(x2)
+
+***********************  By: Mahsa. Hajihosseinlou *****************************
