@@ -23,8 +23,8 @@ ________________________________________________________________________________
     
 ________________________________________________________________________________    
 3. How to launch the test file?
-   I. Download the input data. 
-   II. This file is in CSV format and contains training and test datasets.
+   I. Download the Train and Test files. 
+   II. The files are in CSV format.
    III. Save both datasets in drive E without changing the format and name.
    IV. Run the code.
 
